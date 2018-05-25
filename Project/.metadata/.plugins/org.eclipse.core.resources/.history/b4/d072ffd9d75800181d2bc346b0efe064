@@ -1,0 +1,33 @@
+import java.awt.Component;
+import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.LayoutManager;
+import java.util.ArrayList;
+import java.util.Iterator;
+
+import javax.swing.JPanel;
+
+public class AddNewDownload extends JPanel {
+	ArrayList<DownloadMenu> array;
+	public AddNewDownload() {
+		array=new ArrayList<>();
+	}
+	public void add(DownloadMenu download)
+	{
+		array.add(download);
+	}
+	public void setting()
+	{
+		Iterator<DownloadMenu> iterator1=array.iterator();
+		while(iterator1.hasNext())
+		{
+			DownloadMenu d1=iterator.next();
+			d1.setPreferredSize(new Dimension(2000, 700));
+			this.add(d1);
+		}
+		this.setLayout(new FlowLayout());	
+	}
+	
+
+}

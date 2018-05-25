@@ -1,0 +1,121 @@
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Window;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.*;
+public class Frame {
+	public static void main(String[] args)
+	{
+		JFrame frame=new JFrame("Download Manager");
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setPreferredSize(new Dimension(2000, 700));
+		
+		/*final JButton exit=new JButton("X");
+		final JButton minimize=new JButton("-");
+		exit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				System.exit(0);
+				
+			}
+		});
+		minimize.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent arg0) {
+				frame.setState(frame.ICONIFIED);
+			}
+		});*/
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		JPanel j1=new JPanel();
+		
+		Toolbar toolbar=new Toolbar();
+		AddNewDownload downloadmenitotal=new AddNewDownload();
+		
+		
+		
+		DownloadMenu downloadmenu=new DownloadMenu("khkhk", "0","0");
+		DownloadMenu downloadmenu2=new DownloadMenu("444khkhk", "0","0");
+		
+		
+		downloadmenitotal.add(downloadmenu2);
+		downloadmenitotal.add(downloadmenu);
+		downloadmenitotal.setting();
+		
+		NextBar nextbar=new NextBar();
+		
+		Heading heading=new Heading();
+		
+		MenuBar menu=new MenuBar();
+		
+		
+		SpringLayout layout=new SpringLayout();
+		j1.setLayout(layout);
+		j1.add(toolbar);
+		j1.add(nextbar);
+		j1.add(heading);
+		j1.add(menu);
+		//j1.add(downloadmenitotal);
+		j1.revalidate();
+		
+		
+		int dim=20;
+		
+		
+		layout.putConstraint(SpringLayout.WEST, heading, 0, SpringLayout.WEST, j1);
+		layout.putConstraint(SpringLayout.EAST, heading, 0, SpringLayout.EAST, j1);
+		layout.putConstraint(SpringLayout.NORTH, heading, 0, SpringLayout.NORTH, j1);
+		heading.setPreferredSize(new Dimension(0, 100));
+		
+		layout.putConstraint(SpringLayout.WEST, menu, 0, SpringLayout.WEST, nextbar);
+		layout.putConstraint(SpringLayout.EAST, menu, 0, SpringLayout.EAST, j1);
+		layout.putConstraint(SpringLayout.NORTH, menu, 0, SpringLayout.SOUTH, heading);
+		menu.setPreferredSize(new Dimension(50, 50));
+		
+		
+		
+		layout.putConstraint(SpringLayout.WEST, nextbar, 0, SpringLayout.WEST, j1);
+		layout.putConstraint(SpringLayout.NORTH, nextbar, 0, SpringLayout.SOUTH, heading);
+		//layout.putConstraint(SpringLayout.SOUTH, nextbar, -dim, SpringLayout.SOUTH, j1);
+		nextbar.setPreferredSize(new Dimension(200, 0));
+		
+		//layout.putConstraint(SpringLayout.WEST, toolbar, dim, SpringLayout.EAST, nextbar);
+		//layout.putConstraint(SpringLayout.NORTH, toolbar, dim, SpringLayout.NORTH, j1);
+		//layout.putConstraint(SpringLayout.EAST, toolbar, -dim, SpringLayout.EAST, j1);
+		
+	
+		//layout.putConstraint(SpringLayout.NORTH, downloadmenitotal, 0, SpringLayout.SOUTH, menu);
+		//layout.putConstraint(SpringLayout.NORTH, downloadmenu, 5, SpringLayout.SOUTH, downloadmenu);
+		//toolbar.setPreferredSize(new Dimension(100, 50));
+
+		
+		//layout.putConstraint(SpringLayout.WEST, downloadmenitotal, dim, SpringLayout.EAST, nextbar);
+		//layout.putConstraint(SpringLayout.EAST, downloadmenitotal, -dim, SpringLayout.EAST, j1);
+		//layout.putConstraint(SpringLayout.SOUTH, downloadmenitotal, -dim, SpringLayout.SOUTH, j1);
+		
+		
+		layout.putConstraint(SpringLayout.WEST, toolbar, 0 , SpringLayout.WEST, j1);
+		layout.putConstraint(SpringLayout.SOUTH, toolbar, 0, SpringLayout.SOUTH, j1);
+		layout.putConstraint(SpringLayout.EAST, toolbar, 0, SpringLayout.EAST, j1);
+		toolbar.setPreferredSize(new Dimension(0, 80));
+		
+		layout.putConstraint(SpringLayout.SOUTH, nextbar, 0, SpringLayout.NORTH,toolbar );
+		
+		
+		frame.add(j1);
+		frame.pack();
+		frame.setVisible(true);
+		
+	}
+
+}

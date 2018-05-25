@@ -1,0 +1,205 @@
+import java.awt.AWTException;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.MenuItem;
+import java.awt.PopupMenu;
+import java.awt.SystemTray;
+import java.awt.Toolkit;
+import java.awt.TrayIcon;
+import java.awt.Window;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
+import java.awt.event.WindowStateListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+
+import javax.swing.*;
+public class Frame {
+	static JFrame  frame=new JFrame("Download Manager");
+	public static void main(String[] args) throws IOException 
+	{
+		
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		frame.setPreferredSize(new Dimension(2000, 800));
+		
+		DownloadMenu.numberOfDownloads=-1;
+		
+		
+		/*final JButton exit=new JButton("X");
+		final JButton minimize=new JButton("-");
+		exit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				System.exit(0);
+				
+			}
+		});
+		minimize.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent arg0) {
+				frame.setState(frame.ICONIFIED);
+			}
+		});*/
+		
+		 if (!SystemTray.isSupported()) {
+			 System.out.println("sad");
+		      frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+		      return;
+		    }
+		    SystemTray systemTray = SystemTray.getSystemTray();
+		    //ImageIcon icon=new ImageIcon("if_music_pause_103640.jpg");
+		    Image image = Toolkit.getDefaultToolkit().getImage("if_music_pause_103640.jpg");
+
+		    PopupMenu trayPopupMenu = new PopupMenu();
+
+
+		    MenuItem action = new MenuItem("Action");
+		    action.addActionListener(new ActionListener() {
+		        @Override
+		        public void actionPerformed(ActionEvent e) {
+		        	frame.setVisible(true);
+		        	JOptionPane.showMessageDialog(null, "Action Clicked");          
+		        }
+		    });     
+		    trayPopupMenu.add(action);
+		    MenuItem close = new MenuItem("Close");
+		    close.addActionListener(new ActionListener() {
+		        @Override
+		        public void actionPerformed(ActionEvent e) {
+		        	try {
+		        		System.out.println("yy");
+						Setting.toFile();
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+		            System.exit(0);             
+		        }
+		    });
+		    trayPopupMenu.add(close);
+
+		    TrayIcon trayIcon = new TrayIcon(image, "SystemTray Demo", trayPopupMenu);
+		    trayIcon.setImageAutoSize(true);
+		    trayIcon.addActionListener(new ActionListener() {
+				
+				public void actionPerformed(ActionEvent arg0) {
+					frame.setVisible(true);
+					
+				}
+			});
+
+		    try{
+		        systemTray.add(trayIcon);
+		        trayIcon.displayMessage("sssss", "heeeeeeeeeeee", TrayIcon.MessageType.INFO);
+		        System.out.println("sssssss");
+		    }catch(AWTException awtException){
+		        awtException.printStackTrace();
+		    }
+
+		
+		
+		
+		
+		
+		
+		
+		
+		JPanel j1=new JPanel();
+		
+		
+		AddNewDownload downloadmenitotal=new AddNewDownload();
+		Plan plan=new Plan();
+		plan.toFileDate();
+		plan.toFileTime();
+		Toolbar toolbar=new Toolbar(downloadmenitotal);
+		
+		
+		DownloadMenu downloadmenu=new DownloadMenu("khkhk", "0","0");
+		DownloadMenu downloadmenu2=new DownloadMenu("444khkhk", "0","0");
+	
+		
+		downloadmenitotal.adding(downloadmenu);
+		downloadmenitotal.adding(downloadmenu2);
+		downloadmenitotal.setting();
+		//downloadmenitotal.getFile();
+		
+		NextBar nextbar=new NextBar();
+		
+		Heading heading=new Heading();
+		
+		MenuBar menu=new MenuBar();
+		
+		
+		SpringLayout layout=new SpringLayout();
+		j1.setLayout(layout);
+		j1.add(toolbar);
+		j1.add(nextbar);
+		j1.add(heading);
+		j1.add(menu);
+		j1.add(downloadmenitotal);
+		j1.revalidate();
+		
+		
+		int dim=20;
+		
+		
+		layout.putConstraint(SpringLayout.WEST, heading, 0, SpringLayout.WEST, j1);
+		layout.putConstraint(SpringLayout.EAST, heading, 0, SpringLayout.EAST, j1);
+		layout.putConstraint(SpringLayout.NORTH, heading, 0, SpringLayout.NORTH, j1);
+		heading.setPreferredSize(new Dimension(0, 100));
+		
+		layout.putConstraint(SpringLayout.WEST, menu, 0, SpringLayout.WEST, nextbar);
+		layout.putConstraint(SpringLayout.EAST, menu, 0, SpringLayout.EAST, j1);
+		layout.putConstraint(SpringLayout.NORTH, menu, 0, SpringLayout.SOUTH, heading);
+		menu.setPreferredSize(new Dimension(50, 50));
+		
+		
+		
+		layout.putConstraint(SpringLayout.WEST, nextbar, 0, SpringLayout.WEST, j1);
+		layout.putConstraint(SpringLayout.NORTH, nextbar, 0, SpringLayout.SOUTH, heading);
+		//layout.putConstraint(SpringLayout.SOUTH, nextbar, -dim, SpringLayout.SOUTH, j1);
+		nextbar.setPreferredSize(new Dimension(200, 0));
+		
+		//layout.putConstraint(SpringLayout.WEST, toolbar, dim, SpringLayout.EAST, nextbar);
+		//layout.putConstraint(SpringLayout.NORTH, toolbar, dim, SpringLayout.NORTH, j1);
+		//layout.putConstraint(SpringLayout.EAST, toolbar, -dim, SpringLayout.EAST, j1);
+		
+	
+		layout.putConstraint(SpringLayout.NORTH, downloadmenitotal, 0, SpringLayout.SOUTH, menu);
+		//layout.putConstraint(SpringLayout.NORTH, downloadmenu, 5, SpringLayout.SOUTH, downloadmenu);
+		//toolbar.setPreferredSize(new Dimension(100, 50));
+
+		
+		layout.putConstraint(SpringLayout.WEST, downloadmenitotal, 0, SpringLayout.EAST, nextbar);
+		layout.putConstraint(SpringLayout.EAST, downloadmenitotal, 0, SpringLayout.EAST, j1);
+		layout.putConstraint(SpringLayout.SOUTH, downloadmenitotal, 0, SpringLayout.SOUTH, j1);
+		
+		
+		layout.putConstraint(SpringLayout.WEST, toolbar, 0 , SpringLayout.WEST, j1);
+		layout.putConstraint(SpringLayout.SOUTH, toolbar, 0, SpringLayout.SOUTH, j1);
+		layout.putConstraint(SpringLayout.EAST, toolbar, 0, SpringLayout.EAST, j1);
+		toolbar.setPreferredSize(new Dimension(0, 80));
+		
+		layout.putConstraint(SpringLayout.SOUTH, nextbar, 0, SpringLayout.NORTH,toolbar );
+		
+		downloadmenitotal.toFile();
+		frame.add(j1);
+		frame.pack();
+		frame.setVisible(true);
+		
+	}
+	class Handler2 extends WindowAdapter {
+		  
+	}
+
+}
