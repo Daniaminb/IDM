@@ -1,6 +1,8 @@
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -10,7 +12,7 @@ import javax.swing.border.Border;
  *
  */
 public class NextBar extends JPanel {
-	JButton allCategories;
+	JButton language;
 	JButton documents;
 	JButton comperesed;
 	JButton music;
@@ -18,7 +20,7 @@ public class NextBar extends JPanel {
 	JButton program;
 	public NextBar()
 	{
-		allCategories=new JButton("All Categories");
+		language=new JButton("Language");
 		documents=new JButton("Documents");
 		comperesed=new JButton("Comperesed");
 		music=new JButton("Music");
@@ -31,21 +33,21 @@ public class NextBar extends JPanel {
 		video.setPreferredSize(new Dimension(150, 30));
 		comperesed.setPreferredSize(new Dimension(150, 30));
 		documents.setPreferredSize(new Dimension(150, 30));
-		allCategories.setPreferredSize(new Dimension(150, 30));
+		language.setPreferredSize(new Dimension(150, 30));
 		
 		Border emptyBorder = BorderFactory.createEmptyBorder();
 		program.setBorder(emptyBorder);
 		music.setBorder(emptyBorder);
 		video.setBorder(emptyBorder);
 		documents.setBorder(emptyBorder);
-		allCategories.setBorder(emptyBorder);
+		language.setBorder(emptyBorder);
 		comperesed.setBorder(emptyBorder);
 		
 		
 		
 		
 		music.setBackground(Color.BLACK);
-		allCategories.setBackground(Color.BLACK);
+		language.setBackground(Color.BLACK);
 		comperesed.setBackground(Color.BLACK);
 		documents.setBackground(Color.BLACK);
 		video.setBackground(Color.BLACK);
@@ -59,7 +61,7 @@ public class NextBar extends JPanel {
 		program.setForeground(Color.WHITE);
 		documents.setForeground(Color.WHITE);
 		comperesed.setForeground(Color.WHITE);
-		allCategories.setForeground(Color.WHITE);
+		language.setForeground(Color.WHITE);
 		
 		
 		program.setFont(new Font("Arial", Font.PLAIN, 20));
@@ -67,11 +69,11 @@ public class NextBar extends JPanel {
 		video.setFont(new Font("Arial", Font.PLAIN, 20));
 		documents.setFont(new Font("Arial", Font.PLAIN, 20));
 		comperesed.setFont(new Font("Arial", Font.PLAIN, 20));
-		allCategories.setFont(new Font("Arial", Font.PLAIN, 20));
+		language.setFont(new Font("Arial", Font.PLAIN, 20));
 		
 		
 		
-		this.add(allCategories);
+		this.add(language);
 		this.add(comperesed);
 		this.add(documents);
 		this.add(music);
@@ -83,11 +85,11 @@ public class NextBar extends JPanel {
 		
 		SpringLayout layout=new SpringLayout();
 		
-		layout.putConstraint(SpringLayout.HORIZONTAL_CENTER, allCategories, 0, SpringLayout.HORIZONTAL_CENTER, this);
-		layout.putConstraint(SpringLayout.NORTH, allCategories, 1, SpringLayout.NORTH, this);
+		layout.putConstraint(SpringLayout.HORIZONTAL_CENTER, language, 0, SpringLayout.HORIZONTAL_CENTER, this);
+		layout.putConstraint(SpringLayout.NORTH, language, 1, SpringLayout.NORTH, this);
 		
 		layout.putConstraint(SpringLayout.HORIZONTAL_CENTER, comperesed, 0, SpringLayout.HORIZONTAL_CENTER, this);
-		layout.putConstraint(SpringLayout.NORTH, comperesed, 1, SpringLayout.SOUTH, allCategories);
+		layout.putConstraint(SpringLayout.NORTH, comperesed, 1, SpringLayout.SOUTH, language);
 		
 		layout.putConstraint(SpringLayout.HORIZONTAL_CENTER, documents, 0, SpringLayout.HORIZONTAL_CENTER, this);
 		layout.putConstraint(SpringLayout.NORTH, documents, 1, SpringLayout.SOUTH,comperesed );
@@ -101,6 +103,34 @@ public class NextBar extends JPanel {
 		layout.putConstraint(SpringLayout.HORIZONTAL_CENTER, video, 0, SpringLayout.HORIZONTAL_CENTER, this);
 		layout.putConstraint(SpringLayout.NORTH, video, 1, SpringLayout.SOUTH, program);	
 		
+		language.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				if (AddNewDownload.persian==true)
+				{
+					AddNewDownload.persian=false;
+					language.setText("language");
+					comperesed.setText("comperesed");
+					music.setText("music");
+					video.setText("vidoe");
+					program.setText("program");
+					documents.setText("document");
+				}
+				else
+				{
+					AddNewDownload.persian=true;
+					language.setText("زبان");
+					comperesed.setText("فشرده");
+					documents.setText("اسناد");
+					music.setText("اهنگ");
+					video.setText("فیلم");
+					program.setText("برنامه");
+				}
+				SwingUtilities.updateComponentTreeUI(Frame.frame);
+				
+			}
+		});
 		this.setBackground(Color.BLACK);
 		this.setLayout(layout);
 	}

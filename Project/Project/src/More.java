@@ -29,7 +29,7 @@ public class More {
 	JPanel panel;
 	JButton queue;
 	JButton schedul;
-	public  More()
+	public  More(AddNewDownload and)
 	{
 		frame=new JFrame("More setting");
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -37,9 +37,18 @@ public class More {
 		
 		panel=new JPanel();
 		
-		
-		queue=new JButton("Queue");
-		schedul=new JButton("Schedual");
+		if (AddNewDownload.persian==false)
+		{
+			queue=new JButton("Queue");
+			schedul=new JButton("Schedual");
+		}
+		else
+		{
+			System.out.println("wwwwwwqqqqq");
+			queue=new JButton("صف");
+			schedul=new JButton("برنامه");
+			frame.revalidate();
+		}
 		
 		
 		
@@ -84,7 +93,7 @@ public class More {
 		
 		queue.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				Queue q1=new Queue();
+				Queue q1=new Queue(and);
 				q1.show();
 				
 			}
@@ -127,21 +136,33 @@ public class More {
 					radioPanel=new JPanel();
 					group=new ButtonGroup();
 					
-					
-					item1=new JRadioButton("Date");
-					item2=new JRadioButton("Time");
+					if (AddNewDownload.persian==false)
+					{item1=new JRadioButton("Date");
+					item2=new JRadioButton("Time");}
+					else
+					{
+						item1=new JRadioButton("تاریخ");
+						item2=new JRadioButton("زمان");
+					}
 					
 					radioPanel.add(item1);
 					radioPanel.add(item2);
 					group.add(item1);
 					group.add(item2);
-					textOfAddress=new JLabel("Address");
+					if (AddNewDownload.persian==false)
+					{textOfAddress=new JLabel("Address");
+					textOfFile=new JLabel("File");}
+					else
+					{
+						textOfAddress=new JLabel("ادرس");
+						textOfFile=new JLabel("فایل");
+					}
 					textOfAddress.setEnabled(false);
-					textOfFile=new JLabel("File");
 					textOfFile.setEnabled(false);
 					address=new JTextField();
 					address.setFont(new Font("Arial", Font.PLAIN, 20));
 					file=new JTextField();
+					file.setText("/home/paml");
 					file.setFont(new Font("Arial", Font.PLAIN, 20));
 					
 					
@@ -540,9 +561,9 @@ public class More {
 												if (sec>=0 && sec<=60 && mo>=0 && mo<=60 && ho>=0 && ho<=12)
 												{
 													System.out.println("yes");
-													PlanTime tt=new PlanTime(address.getText(), file.getText(), sec, mo, ho);
+													PlanTime tt=new PlanTime(address.getText(), file.getText(), sec, mo, ho, and);
 													try {
-														Plan.addTime(tt);
+														Plan.addTime(tt,and);
 													} catch (IOException e) {
 														// TODO Auto-generated catch block
 														e.printStackTrace();

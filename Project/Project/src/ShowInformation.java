@@ -42,7 +42,15 @@ public class ShowInformation {
 	JLabel time;
 	JLabel address;
 	JLabel file;
-	
+	/**
+	 * Constructor of ishow information
+	 * @param Url url
+	 * @param filePath filepath
+	 * @param time time of downloading
+	 * @param volumeOfDownloading volume of downloading
+	 * @param percentOfDownloading percent of downloading
+	 * @param volumeOfFile volume of file
+	 */
 	public ShowInformation(String Url,String filePath,String time,String volumeOfDownloading,String percentOfDownloading,String volumeOfFile)
 	{
 		frame1=new JFrame("Information Of Download");
@@ -296,6 +304,9 @@ public class ShowInformation {
 		//frame.setLayout(null);
 		frame1.pack();
 	}
+	/**
+	 * show the frame of information
+	 */
 	public void show()
 	{
 		frame1.setVisible(true);

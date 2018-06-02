@@ -36,10 +36,14 @@ public class Setting {
 	JButton selectLookAndFeel;
 	JButton invalidSite;
 	private static String defaultFileDic;
+	/**
+	 * Constructor of setting
+	 */
 	
 	
-	
-	
+	/**
+	 * constructor of setting
+	 */
 	public Setting()
 	{
 		frame=new JFrame("Setting");
@@ -81,7 +85,9 @@ public class Setting {
 				l1.show();	
 			}
 		});
-		
+		/**
+		 * look and feel
+		 */
 		selectLookAndFeel.addActionListener(new ActionListener() {
 			
 			@Override
@@ -91,7 +97,9 @@ public class Setting {
 				a1.show();
 			}
 		});
-		
+		/**
+		 * locantion of download
+		 */
 		locationOfDownloads.addActionListener(new ActionListener() {
 			private JFileChooser fileChooser;
 			private int returnval;
@@ -110,6 +118,9 @@ public class Setting {
 				}
 			}
 		});
+		/**
+		 * invalid site
+		 */
 		invalidSite.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
@@ -270,7 +281,10 @@ public class Setting {
 	{
 		frame.setVisible(true);
 	}
-	
+	/**
+	 * write to file
+	 * @throws IOException
+	 */
 	
 	
 	public static void toFile() throws IOException
@@ -312,6 +326,9 @@ public class Setting {
 			    }
 			}
 	}
+	/**
+	 * get information from file
+	 */
 	public  static void getFileDate()
 	{
 		System.out.println("newwwwww");
@@ -345,7 +362,10 @@ public class Setting {
 			}
 		
 	}
-	
+	/**
+	 * get default directory
+	 * @return directory
+	 */
 	public String getFile()
 	{
 		return defaultFileDic;

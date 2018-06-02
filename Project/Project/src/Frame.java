@@ -25,6 +25,11 @@ import java.io.IOException;
 import java.io.OutputStream;
 
 import javax.swing.*;
+/**
+ * Frame o
+ * @author dannydani
+ *
+ */
 public class Frame {
 	static JFrame  frame=new JFrame("Download Manager");
 	public static void main(String[] args) throws IOException 
@@ -34,6 +39,7 @@ public class Frame {
 		frame.setPreferredSize(new Dimension(1000, 800));
 		
 		DownloadMenu.numberOfDownloads=-1;
+		DownloadMenu.lmd=0;
 		
 		
 		/*final JButton exit=new JButton("X");
@@ -124,12 +130,12 @@ public class Frame {
 		Toolbar toolbar=new Toolbar(downloadmenitotal);
 		
 		
-		DownloadMenu downloadmenu=new DownloadMenu("khkhk", "0","0");
-		DownloadMenu downloadmenu2=new DownloadMenu("444khkhk", "0","0");
+		//DownloadMenu downloadmenu=new DownloadMenu("khkhk", "0","0");
+		//DownloadMenu downloadmenu2=new DownloadMenu("444khkhk", "0","0");
 	
 		
-		downloadmenitotal.adding(downloadmenu);
-		downloadmenitotal.adding(downloadmenu2);
+		//downloadmenitotal.adding(downloadmenu);
+		//downloadmenitotal.adding(downloadmenu2);
 		downloadmenitotal.setting();
 		//downloadmenitotal.getFile();
 		

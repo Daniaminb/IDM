@@ -1,0 +1,378 @@
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.LayoutManager;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.SpringLayout;
+import javax.swing.SwingConstants;
+/**
+ * make new download
+ */
+public class FileChoosing {
+	JFrame frame;
+	
+	
+	JPanel panelAdress;
+	JPanel panelFile;
+	JPanel panelButton;
+	JPanel opening;
+	JPanel totalPanel;
+	
+	JLabel textOfAddress;
+	JLabel textOfFile;
+	JLabel openingtext;
+	
+	
+	JButton download;
+	JButton cancel;
+	JButton more;
+	JButton path;
+	
+	
+	JTextField address;
+	JTextField file;
+	
+	String dic;
+	public FileChoosing(AddNewDownload and)
+	{
+		frame=new JFrame("Add new download URL");
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		frame.setPreferredSize(new Dimension(900, 300));
+		
+		
+		
+		panelAdress=new JPanel();
+		panelFile=new JPanel();
+		panelButton=new JPanel();
+		opening=new JPanel();
+		totalPanel=new JPanel();
+		
+		
+		totalPanel.add(panelAdress);
+		totalPanel.add(panelButton);
+		totalPanel.add(panelFile);
+		totalPanel.add(opening);
+		
+		
+		textOfAddress=new JLabel("Address");
+		textOfAddress.setEnabled(false);
+		textOfFile=new JLabel("File");
+		textOfFile.setEnabled(false);
+		address=new JTextField();
+		file=new JTextField();
+		
+		file.setFont(new Font("Arial", Font.PLAIN, 20));
+		
+		
+		
+		
+		
+		
+		download=new JButton("DOWNLOAD NOW");
+		cancel=new JButton("CANCEL");
+		more=new JButton("More...");
+		cancel.setBorderPainted(true);
+		download.setBorderPainted(true);
+		more.setBorderPainted(true);
+		download.setForeground(Color.WHITE);
+		cancel.setForeground(Color.WHITE);
+		download.setBackground(Color.BLACK);
+		cancel.setBackground(Color.BLACK);
+		more.setBackground(Color.BLACK);
+		more.setForeground(Color.white);
+		more.setFont(new Font("Arial", Font.ITALIC, 20));
+		cancel.setFont(new Font("Arial", Font.ITALIC, 20));
+		download.setFont(new Font("Arial", Font.ITALIC, 20));
+		cancel.setHorizontalAlignment(SwingConstants.CENTER);
+		download.setHorizontalAlignment(SwingConstants.CENTER);
+		//more.setHorizontalAlignment(SwingConstants.CENTER);
+		
+		
+		ImageIcon image=new ImageIcon("if_search_2561381.png");
+		path=new JButton(image);
+		
+		
+		openingtext=new JLabel("NEW DOWNLOAD");
+		openingtext.setForeground(Color.WHITE);
+		openingtext.setHorizontalAlignment(SwingConstants.CENTER);
+		openingtext.setFont(new Font("Arial", Font.ITALIC, 20));
+		openingtext.setEnabled(false);
+		opening.add(openingtext);
+		
+		panelButton.add(download);
+		panelButton.add(cancel);	
+		panelButton.add(more);
+		
+
+		panelAdress.add(address);
+		panelFile.add(file);
+		panelAdress.add(textOfAddress);
+		panelFile.add(textOfFile);
+		panelFile.add(path);
+		
+		
+		SpringLayout layoutFrame=new SpringLayout();
+		SpringLayout layoutFile=new SpringLayout();
+		SpringLayout layoutButton=new SpringLayout();
+		SpringLayout layoutOpenning=new SpringLayout();
+		SpringLayout layoutAddress=new SpringLayout();
+		
+
+		
+		
+		layoutAddress.putConstraint(SpringLayout.WEST, textOfAddress, 20, SpringLayout.WEST, panelAdress);
+		textOfAddress.setPreferredSize(new Dimension(80, 40));
+		textOfAddress.setFont(new Font("Arial", Font.ITALIC, 20));
+		textOfAddress.setForeground(Color.white);
+		layoutAddress.putConstraint(SpringLayout.WEST, address, 10, SpringLayout.EAST, textOfAddress);
+		layoutAddress.putConstraint(SpringLayout.EAST, address, -10, SpringLayout.EAST, panelAdress);
+		address.setPreferredSize(new Dimension(0, 40));
+		panelAdress.setBackground(Color.BLACK);
+		
+		
+		
+		layoutFile.putConstraint(SpringLayout.WEST, textOfFile, 50, SpringLayout.WEST, panelFile);
+		textOfFile.setPreferredSize(new Dimension(40, 40));
+		textOfFile.setFont(new Font("Arial", Font.ITALIC, 20));
+		textOfFile.setForeground(Color.white);
+		layoutFile.putConstraint(SpringLayout.WEST, file, 18, SpringLayout.EAST, textOfFile);
+		//layoutFile.putConstraint(SpringLayout.EAST, file, -10, SpringLayout.EAST, panelFile);
+		file.setPreferredSize(new Dimension(700, 40));
+		layoutFile.putConstraint(SpringLayout.WEST, path, 0, SpringLayout.EAST, file);
+		layoutFile.putConstraint(SpringLayout.EAST, path, -10, SpringLayout.EAST, panelFile);
+		path.setPreferredSize(new Dimension(0, 40));
+		panelFile.setBackground(Color.BLACK);
+		
+		
+		layoutButton.putConstraint(SpringLayout.EAST, cancel, 0, SpringLayout.EAST, panelButton);
+		layoutButton.putConstraint(SpringLayout.NORTH, cancel, 0, SpringLayout.NORTH, panelButton);
+		layoutButton.putConstraint(SpringLayout.SOUTH, cancel, 0, SpringLayout.SOUTH, panelButton);
+		cancel.setPreferredSize(new Dimension(300, 0));
+		
+		
+		
+		layoutButton.putConstraint(SpringLayout.NORTH, download, 0, SpringLayout.NORTH, panelButton);
+		layoutButton.putConstraint(SpringLayout.SOUTH, download, 0, SpringLayout.SOUTH, panelButton);
+		layoutButton.putConstraint(SpringLayout.EAST, download, 0, SpringLayout.WEST, cancel);
+		download.setPreferredSize(new Dimension(300, 0));
+		
+		
+		layoutButton.putConstraint(SpringLayout.NORTH, more, 0, SpringLayout.NORTH, panelButton);
+		layoutButton.putConstraint(SpringLayout.SOUTH, more, 0, SpringLayout.SOUTH, panelButton);
+		layoutButton.putConstraint(SpringLayout.EAST, more, 0, SpringLayout.WEST, download);
+		layoutButton.putConstraint(SpringLayout.WEST, more, 0, SpringLayout.WEST, panelButton);
+		
+		
+		
+		layoutOpenning.putConstraint(SpringLayout.EAST, openingtext, 0, SpringLayout.EAST, opening);
+		layoutOpenning.putConstraint(SpringLayout.WEST, openingtext, 0, SpringLayout.WEST, opening);
+		layoutOpenning.putConstraint(SpringLayout.NORTH, openingtext, 0, SpringLayout.NORTH, opening);
+		layoutOpenning.putConstraint(SpringLayout.SOUTH, openingtext, 0, SpringLayout.SOUTH, opening);
+		
+		
+		
+		
+		
+		layoutFrame.putConstraint(SpringLayout.NORTH, opening, 0, SpringLayout.NORTH, totalPanel);
+		layoutFrame.putConstraint(SpringLayout.EAST, opening, 0, SpringLayout.EAST, totalPanel);
+		layoutFrame.putConstraint(SpringLayout.WEST, opening, 0, SpringLayout.WEST, totalPanel);
+		opening.setPreferredSize(new Dimension(0, 50));
+		opening.setBackground(Color.BLACK);
+		
+		
+		
+		
+		
+		
+		
+		layoutFrame.putConstraint(SpringLayout.NORTH, panelAdress, 0, SpringLayout.SOUTH, opening);
+		layoutFrame.putConstraint(SpringLayout.EAST, panelAdress, 0, SpringLayout.EAST, totalPanel);
+		layoutFrame.putConstraint(SpringLayout.WEST, panelAdress, 0, SpringLayout.WEST, totalPanel);
+		panelAdress.setPreferredSize(new Dimension(0, 50));
+		
+		
+		
+		
+		
+		layoutFrame.putConstraint(SpringLayout.NORTH, panelFile, 0, SpringLayout.SOUTH, panelAdress);
+		layoutFrame.putConstraint(SpringLayout.EAST, panelFile, 0, SpringLayout.EAST, totalPanel);
+		layoutFrame.putConstraint(SpringLayout.WEST, panelFile, 0, SpringLayout.WEST, totalPanel);
+		panelFile.setPreferredSize(new Dimension(0, 50));
+		
+		
+		
+		
+		layoutFrame.putConstraint(SpringLayout.NORTH, panelButton, 0, SpringLayout.SOUTH, panelFile);
+		layoutFrame.putConstraint(SpringLayout.EAST, panelButton, 0, SpringLayout.EAST, totalPanel);
+		layoutFrame.putConstraint(SpringLayout.WEST, panelButton, 0, SpringLayout.WEST, totalPanel);
+		layoutFrame.putConstraint(SpringLayout.SOUTH, panelButton, 0, SpringLayout.SOUTH, totalPanel);
+		//panelButton.setBackground(Color.BLACK);
+		//opening.setPreferredSize(new Dimension(0, 30));*/
+		
+		
+		panelAdress.setLayout(layoutAddress);
+
+		panelFile.setLayout(layoutFile);
+		opening.setLayout(layoutOpenning);
+		panelButton.setLayout(layoutButton);
+		totalPanel.setLayout(layoutFrame);
+		
+		
+		path.addActionListener(new ActionListener() {
+			private JFileChooser fileChooser;
+			private int returnval;		
+			public void actionPerformed(ActionEvent arg0) {
+				fileChooser=new JFileChooser();
+				fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+				returnval=fileChooser.showOpenDialog(null);
+				if (returnval==fileChooser.APPROVE_OPTION)
+				{
+					dic=fileChooser.getSelectedFile().getAbsolutePath();
+					file.setText(dic);
+				}
+				else if (returnval==fileChooser.ERROR_OPTION)
+				{
+					actionPerformed(arg0);
+				}
+			}
+		});
+		more.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				More more2=new More();
+				more2.show();
+			}
+		});
+		
+		download.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				boolean bl=false;
+				boolean bl2=false;
+				DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+				Calendar cal = Calendar.getInstance();
+				String time=dateFormat.format(cal.getTime());
+				if (LimitedDownloads.limitedDownload==-1 || LimitedDownloads.limitedDownload>AddNewDownload.array.size())
+				{
+					if (address.getText().isEmpty()!=true && file.getText().isEmpty()!=true)
+					{
+						System.out.println("newwwwww");
+						String firstLine="1";
+						File file2=new File("URL.jdm");
+						BufferedWriter bw=null;
+						try
+						{	
+							if (!file2.exists())
+							{
+								file2.createNewFile();
+							}
+							BufferedReader br=new BufferedReader(new InputStreamReader(new FileInputStream(file2)));
+							do
+							{
+								String string=br.readLine();
+								if (string!=null)
+								{
+									for(int i=0 ; i<string.length();i++)
+									{
+										if (string.charAt(i)=='/')
+										{
+											if (string.charAt(i+1)=='/')
+											{
+												i++;
+											}
+											else
+											{
+												bl=true;
+												break;
+											}
+										}
+									}
+									if (bl==true)
+									{
+										if (address.getText().equals(string)==true)
+										{
+											bl2=true;
+										}
+									}
+									if (bl==false)
+									{
+										if (address.getText().contains(string)==true)
+										{
+											bl2=true;
+										}
+									}
+								}	
+								else
+								{
+									firstLine=null;
+								}
+								string=br.readLine();
+							}while(firstLine!=null);
+						}
+						catch (IOException ioe) {
+							ioe.printStackTrace();
+							}
+							finally
+							{ 
+								try{
+									if(bw!=null)
+										bw.close();
+									if (bl2==false)
+									{
+										DownloadMenu dm=new DownloadMenu(address.getText(), "0",time);
+										dm.setURL(address.getText());
+										dm.setFile(file.getText());
+										dm.run();
+										System.out.println("address="+address.getText());
+										System.out.println("heerrerere rwe googogogoogo");
+										AddNewDownload.adding(dm);
+										and.showRunTime();
+										address.setText(null);
+										file.setText(null);
+									}
+									else
+									{
+										address.setText(null);
+										file.setText(null);
+									}
+								}catch(Exception ex){
+									System.out.println("Error in closing the BufferedWriter"+ex);
+								}
+							}
+					}
+				}
+				else
+				{
+					JOptionPane.showMessageDialog(null, "Limited downloads","Alert",JOptionPane.WARNING_MESSAGE);
+				}
+					
+			}
+		});
+		totalPanel.setBackground(Color.BLACK);
+		frame.add(totalPanel);
+		//frame.setLayout(null);
+		frame.pack();
+	}
+	
+	public void show()
+	{
+		frame.setVisible(true);
+	}
+}

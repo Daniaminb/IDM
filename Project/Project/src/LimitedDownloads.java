@@ -19,6 +19,9 @@ public class LimitedDownloads {
 	JPanel panel;
 	JLabel textOfLimitedDownloads;
 	TextField text;
+	/**
+	 * Constructor of limited download
+	 */
 	public LimitedDownloads()
 	{
 		frame=new JFrame("Limited Downloads");
@@ -44,6 +47,7 @@ public class LimitedDownloads {
 				if (text.getText().isEmpty()!=true)
 				{
 					limitedDownload=Integer.parseInt(text.getText());
+					System.out.println(limitedDownload);
 					text.setText(null);
 				}
 				else
@@ -58,6 +62,9 @@ public class LimitedDownloads {
 		frame.pack();
 		
 	}
+	/**
+	 * show frame of limited download
+	 */
 	public void show()
 	{
 		frame.setVisible(true);

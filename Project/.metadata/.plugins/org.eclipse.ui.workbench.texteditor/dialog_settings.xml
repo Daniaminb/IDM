@@ -6,16 +6,27 @@
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="false" key="isRegEx"/>
-		<item value="T" key="selection"/>
+		<item value="speedOf" key="selection"/>
 		<item value="false" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="true" key="wrap"/>
 		<item value="false" key="wholeword"/>
 		<list key="findhistory">
-			<item value="t"/>
-			<item value="downloads"/>
-			<item value="ShowI"/>
-			<item value="windowCl"/>
+			<item value="speedOf"/>
+			<item value="plan"/>
+			<item value="fos"/>
+			<item value="123"/>
+			<item value="heerrerere"/>
+			<item value="heerrere"/>
+			<item value="asdfasdfdsafsadfsadfasdfsadfadsfsadfdsfhjoqeyigjfjgoflafjodwq"/>
+			<item value="sad"/>
+			<item value="Error in clos"/>
+			<item value="error in clos"/>
+			<item value="lmd"/>
+			<item value="get"/>
+			<item value="resumeArr"/>
+			<item value="resume"/>
+			<item value="show"/>
 		</list>
 		<list key="replacehistory">
 		</list>
@@ -24,7 +35,7 @@
 		<item value="343" key="DIALOG_WIDTH"/>
 		<item value="1|Ubuntu|11.0|0|GTK|1|" key="DIALOG_FONT_NAME"/>
 		<item value="441" key="DIALOG_HEIGHT"/>
-		<item value="789" key="DIALOG_X_ORIGIN"/>
-		<item value="248" key="DIALOG_Y_ORIGIN"/>
+		<item value="988" key="DIALOG_X_ORIGIN"/>
+		<item value="422" key="DIALOG_Y_ORIGIN"/>
 	</section>
 </section>

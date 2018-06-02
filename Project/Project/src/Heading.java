@@ -20,13 +20,23 @@ public class Heading extends JPanel{
 	JButton all;
 	JButton incomplete;
 	JButton complete;
+	/**
+	 * constructor of heading
+	 */
 	public Heading()
 	{
-		name=new JLabel("JVM2018");
+		if (AddNewDownload.persian==false)
+		{name=new JLabel("JVM2018");
 		all=new JButton("All");
 		incomplete=new JButton("Incomplete");
-		complete=new JButton("Complete");
-		
+		complete=new JButton("Complete");}
+		else
+		{
+			name=new JLabel("دانلود منیجر");
+			all=new JButton("همه");
+			incomplete=new JButton("بایان نیافته");
+			complete=new JButton("بایان یافته");
+		}
 		
 		name.setPreferredSize(new Dimension(160,30 ));
 		name.setFont(new Font("Arial", Font.PLAIN, 30));
@@ -90,7 +100,6 @@ public class Heading extends JPanel{
 		this.setBackground(Color.GRAY);
 		
 	}
-	
 	
 	
 

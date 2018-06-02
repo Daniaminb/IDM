@@ -208,6 +208,7 @@ public class Toolbar extends JPanel
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				System.out.println("cancel");
+				AddNewDownload.cancel();
 				
 			}
 		});
@@ -479,7 +480,12 @@ public class Toolbar extends JPanel
 		pause.addActionListener(new ActionListener() {
 			
 			public void actionPerformed(ActionEvent arg0) {
-				System.out.println("pause");
+				try {
+					AddNewDownload.pause();
+				} catch (InterruptedException e) {
+					System.out.println("Error");
+					e.printStackTrace();
+				}
 				
 			}
 		});

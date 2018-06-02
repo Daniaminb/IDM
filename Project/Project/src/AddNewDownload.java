@@ -24,17 +24,24 @@ import javax.swing.JPanel;
 
 public class AddNewDownload extends JPanel {
 	static ArrayList<DownloadMenu> array;
+	static ArrayList<DownloadMenu> array2;
+	static boolean persian=false;
 	public AddNewDownload() {
 		System.out.println(this.getSize());
 		array=new ArrayList<>();
+		array2=new ArrayList<>();
 		this.setPreferredSize(new Dimension(6000, 700));
 		//System.out.println(this.getBounds().height);
 	}
 	public static void adding(DownloadMenu download)
 	{
-		download.setPreferredSize(new Dimension(0, 70));
+		download.setPreferredSize(new Dimension(0, 100));
 		//download.setMinimumSize(new Dimension(1650, 70));
 		array.add(download);
+	}
+	public static void addToArray2(DownloadMenu download)
+	{
+		array2.add(download);
 	}
 	public void setting()
 	{
@@ -277,7 +284,10 @@ public class AddNewDownload extends JPanel {
 		this.revalidate();
 		setting();
 	}
-	public static void resume()
+	/**
+	 * resume the download
+	 */
+	public static void resume() 
 	{
 		int kk=0;
 		Iterator<DownloadMenu> iterator=array.iterator();
@@ -286,9 +296,69 @@ public class AddNewDownload extends JPanel {
 			DownloadMenu m=iterator.next();
 			if (m.getClick()==true)
 			{
-				
 				System.out.println(kk);
-				m.downloads();
+				m.setPausemood(false);
+				//System.out.println(m.getPausemood()	);
+				//System.out.println("Resuminggggg");
+				break;
+			}
+			kk++;
+		}
+	}
+	/**
+	 * pause the download
+	 * @throws InterruptedException
+	 */
+	public static void pause() throws InterruptedException
+	{
+		//System.out.println("pause");
+		int kk=0;
+		Iterator<DownloadMenu> iterator=array.iterator();
+		while(iterator.hasNext())
+		{
+			DownloadMenu m=iterator.next();
+			if (m.getClick()==true)
+			{
+				System.out.println(kk);
+				m.setPausemood(true);
+				break;
+			}
+			kk++;
+		}
+	}
+	/**
+	 * resume array2
+	 */
+	public static void resumeArray2()
+	{
+		if (array2.size()>=1)
+		{
+			System.out.println("yesssssssssssssssssssssssssssssssssssssssssssssssssssss");
+			array2.get(0).setPausemood(false);
+			System.out.println("asdfasdfdsafsadfsadfasdfsadfadsfsadfdsfhjoqeyigjfjgoflafjodwq");
+			array2.remove(0);
+		}
+		else
+		{
+			System.out.println("Dont have any downloads");
+		}
+	}
+	/**
+	 * cancel download
+	 */
+	public static void cancel()
+	{
+		int kk=0;
+		Iterator<DownloadMenu> iterator=array.iterator();
+		while(iterator.hasNext())
+		{
+			DownloadMenu m=iterator.next();
+			if (m.getClick()==true)
+			{
+				System.out.println(kk);
+				m.setCancel(true);
+				//System.out.println(m.getPausemood()	);
+				//System.out.println("Resuminggggg");
 				break;
 			}
 			kk++;

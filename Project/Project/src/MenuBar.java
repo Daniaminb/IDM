@@ -20,6 +20,9 @@ public class MenuBar extends JPanel {
 	JMenuBar menuDownloads;
 	JMenuBar menuHelp;
 	JMenuItem resume,pause,cancel,setting,remove,about;
+	/**
+	 * Constructor of menubar
+	 */
 	public MenuBar()
 	{
 		downloads=new JMenu("Downloads");
@@ -52,6 +55,9 @@ public class MenuBar extends JPanel {
 		
         downloads.setMnemonic(KeyEvent.VK_D);
         help.setMnemonic(KeyEvent.VK_H);
+        /**
+         * actrion listener of about
+         */
 		
         about.addActionListener(new ActionListener() {
 		

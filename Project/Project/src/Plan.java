@@ -15,12 +15,14 @@ import java.util.Iterator;
 public class Plan {
 	static ArrayList<PlanTime> arrayTime;
 	static ArrayList<PlanDate> arrayDate;
+	static AddNewDownload and=null;
 	public Plan() {
 		arrayTime=new ArrayList<>();
 		arrayDate=new ArrayList<>();
 	}
-	public static void addTime(PlanTime a) throws IOException
+	public static void addTime(PlanTime a,AddNewDownload and2) throws IOException
 	{
+		and=and2;
 		arrayTime.add(a);
 		System.out.println("hereeeeeeeee321");
 		toFileTime();
@@ -201,7 +203,7 @@ public class Plan {
 					int gettingSec=br.read();
 					int gettingMin=br.read();
 					int gettingHour=br.read();
-					PlanTime dl=new PlanTime(gettingAddress, gettingFile, gettingSec,gettingMin,gettingHour);
+					PlanTime dl=new PlanTime(gettingAddress, gettingFile, gettingSec,gettingMin,gettingHour,and);
 					arrayTime.add(dl);
 				}
 				else

@@ -52,6 +52,9 @@ public class FileChoosing {
 	JTextField file;
 	
 	String dic;
+	/**
+	 * constructor of file choosing
+	 */
 	public FileChoosing(AddNewDownload and)
 	{
 		frame=new JFrame("Add new download URL");
@@ -72,10 +75,15 @@ public class FileChoosing {
 		totalPanel.add(panelFile);
 		totalPanel.add(opening);
 		
-		
-		textOfAddress=new JLabel("Address");
+		if (AddNewDownload.persian==false)
+		{textOfAddress=new JLabel("Address");
+		textOfFile=new JLabel("File");}
+		else
+		{
+			textOfAddress=new JLabel("ادرس");
+			textOfFile=new JLabel("فایل");
+		}
 		textOfAddress.setEnabled(false);
-		textOfFile=new JLabel("File");
 		textOfFile.setEnabled(false);
 		address=new JTextField();
 		file=new JTextField();
@@ -86,10 +94,16 @@ public class FileChoosing {
 		
 		
 		
-		
-		download=new JButton("DOWNLOAD NOW");
+		if (AddNewDownload.persian==false)
+		{download=new JButton("DOWNLOAD NOW");
 		cancel=new JButton("CANCEL");
-		more=new JButton("More...");
+		more=new JButton("More...");}
+		else
+		{
+			download=new JButton("دانلود الان");
+			cancel=new JButton("کنسل");
+			more=new JButton("بیشتر...");
+		}
 		cancel.setBorderPainted(true);
 		download.setBorderPainted(true);
 		more.setBorderPainted(true);
@@ -110,8 +124,12 @@ public class FileChoosing {
 		ImageIcon image=new ImageIcon("if_search_2561381.png");
 		path=new JButton(image);
 		
-		
-		openingtext=new JLabel("NEW DOWNLOAD");
+		if (AddNewDownload.persian==false)
+		{openingtext=new JLabel("NEW DOWNLOAD");}
+		else
+		{
+			openingtext=new JLabel("اضافه کردن دانلود");
+		}
 		openingtext.setForeground(Color.WHITE);
 		openingtext.setHorizontalAlignment(SwingConstants.CENTER);
 		openingtext.setFont(new Font("Arial", Font.ITALIC, 20));
@@ -236,7 +254,9 @@ public class FileChoosing {
 		panelButton.setLayout(layoutButton);
 		totalPanel.setLayout(layoutFrame);
 		
-		
+		/**
+		 * path action listener
+		 */
 		path.addActionListener(new ActionListener() {
 			private JFileChooser fileChooser;
 			private int returnval;		
@@ -255,13 +275,29 @@ public class FileChoosing {
 				}
 			}
 		});
+		/**
+		 * cancle action listener
+		 */
+		cancel.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				frame.setVisible(false);
+				
+			}
+		});
+		/**
+		 * more action listener
+		 */
 		more.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				More more2=new More();
+				More more2=new More(and);
 				more2.show();
 			}
 		});
-		
+		/**
+		 * download action listener
+		 */
 		download.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				boolean bl=false;
@@ -269,7 +305,7 @@ public class FileChoosing {
 				DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 				Calendar cal = Calendar.getInstance();
 				String time=dateFormat.format(cal.getTime());
-				if (LimitedDownloads.limitedDownload==-1 || LimitedDownloads.limitedDownload>AddNewDownload.array.size())
+				if (LimitedDownloads.limitedDownload==-1 || LimitedDownloads.limitedDownload>DownloadMenu.lmd)
 				{
 					if (address.getText().isEmpty()!=true && file.getText().isEmpty()!=true)
 					{
@@ -340,8 +376,11 @@ public class FileChoosing {
 										dm.setURL(address.getText());
 										dm.setFile(file.getText());
 										System.out.println("address="+address.getText());
+										System.out.println("heerrerere rwe googogogoogo");
 										AddNewDownload.adding(dm);
+										new Thread(dm).start();
 										and.showRunTime();
+										System.out.println("heerrerere rwe googogogoogo1231231233");
 										address.setText(null);
 										file.setText(null);
 									}
@@ -359,6 +398,94 @@ public class FileChoosing {
 				else
 				{
 					JOptionPane.showMessageDialog(null, "Limited downloads","Alert",JOptionPane.WARNING_MESSAGE);
+					if (address.getText().isEmpty()!=true && file.getText().isEmpty()!=true)
+					{
+						System.out.println("newwwwww");
+						String firstLine="1";
+						File file2=new File("URL.jdm");
+						BufferedWriter bw=null;
+						try
+						{	
+							if (!file2.exists())
+							{
+								file2.createNewFile();
+							}
+							BufferedReader br=new BufferedReader(new InputStreamReader(new FileInputStream(file2)));
+							do
+							{
+								String string=br.readLine();
+								if (string!=null)
+								{
+									for(int i=0 ; i<string.length();i++)
+									{
+										if (string.charAt(i)=='/')
+										{
+											if (string.charAt(i+1)=='/')
+											{
+												i++;
+											}
+											else
+											{
+												bl=true;
+												break;
+											}
+										}
+									}
+									if (bl==true)
+									{
+										if (address.getText().equals(string)==true)
+										{
+											bl2=true;
+										}
+									}
+									if (bl==false)
+									{
+										if (address.getText().contains(string)==true)
+										{
+											bl2=true;
+										}
+									}
+								}	
+								else
+								{
+									firstLine=null;
+								}
+								string=br.readLine();
+							}while(firstLine!=null);
+						}
+						catch (IOException ioe) {
+							ioe.printStackTrace();
+							}
+							finally
+							{ 
+								try{
+									if(bw!=null)
+										bw.close();
+									if (bl2==false)
+									{
+										DownloadMenu dm=new DownloadMenu(address.getText(), "0",time);
+										dm.setURL(address.getText());
+										dm.setFile(file.getText());
+										System.out.println("address="+address.getText());
+										System.out.println("heerrerere rwe googogogoogherihe9htoertertreto");
+										AddNewDownload.adding(dm);
+										AddNewDownload.addToArray2(dm);
+										new Thread(dm).wait();
+										and.showRunTime();
+										address.setText(null);
+										file.setText(null);
+									}
+									else
+									{
+										address.setText(null);
+										file.setText(null);
+									}
+								}catch(Exception ex){
+									System.out.println("Error in closing the BufferedWriter222"+ex);
+								}
+							}
+					}
+					and.showRunTime();
 				}
 					
 			}
@@ -368,7 +495,9 @@ public class FileChoosing {
 		//frame.setLayout(null);
 		frame.pack();
 	}
-	
+	/**
+	 * show the frame of download 
+	 */
 	public void show()
 	{
 		frame.setVisible(true);

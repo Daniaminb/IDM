@@ -13,7 +13,10 @@ import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Iterator;
 import java.util.PriorityQueue;
 
@@ -22,69 +25,87 @@ import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SpringLayout;
 import javax.swing.SwingConstants;
+import javax.swing.SwingWorker;
 /**
  * make a queue
  * @author dannydani
  **/
-public class Queue {
-	PriorityQueue<String> queueURL;
-	PriorityQueue<String> queueADDRESS;
+public class Queue implements Runnable {
+	ArrayList<String> queueURL;
+	ArrayList<String> queueADDRESS;
+	AddNewDownload and;
+	static boolean queuemood=false;
 	
 	JFrame frame;
 	
 	
 	JButton add;
-	JButton remove;
+	JButton start;
 	JButton showQueue;
 	
 	
 	
 	JPanel panel;
-	public Queue()
+	public Queue(AddNewDownload and)
 	{
+		this.and=and;
 		frame=new JFrame("Queue");
 		
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		frame.setPreferredSize(new Dimension(300, 230));
+		frame.setPreferredSize(new Dimension(300, 345));
 		
 		
-		queueURL=new PriorityQueue<>();
-		queueADDRESS=new PriorityQueue<>();
+		queueURL=new ArrayList<>();
+		queueADDRESS=new ArrayList<>();
 		getFile();
 		panel=new JPanel();
 		
-		
-		add=new JButton("Add");
+		if (AddNewDownload.persian==false)
+		{add=new JButton("Add");
 		showQueue=new JButton("Show");
+		start=new JButton("Start");}
+		else
+		{
+			add=new JButton("اضافه");
+			showQueue=new JButton("نمایش");
+			start=new JButton("شروع");
+		}
 		
 		
 		
 		add.setBorderPainted(true);
 		showQueue.setBorderPainted(true);
+		start.setBorderPainted(true);
+		
 		
 		add.setForeground(Color.WHITE);
 		showQueue.setForeground(Color.WHITE);
+		start.setForeground(Color.WHITE);
 		
 		
 		add.setBackground(Color.BLACK);
 		showQueue.setBackground(Color.BLACK);
+		start.setBackground(Color.BLACK);
 		
 		
 		add.setFont(new Font("Arial", Font.ITALIC, 20));
 		showQueue.setFont(new Font("Arial", Font.ITALIC, 20));
+		start.setFont(new Font("Arial", Font.ITALIC, 20));
 		
 		
 		add.setHorizontalAlignment(SwingConstants.CENTER);
 		showQueue.setHorizontalAlignment(SwingConstants.CENTER);
-
+		start.setHorizontalAlignment(SwingConstants.CENTER);
+		
 		
 		panel.add(add);
 		panel.add(showQueue);
-		
+		panel.add(start);
 		
 		
 		SpringLayout layout=new SpringLayout();
@@ -96,7 +117,14 @@ public class Queue {
 		layout.putConstraint(SpringLayout.EAST, showQueue, 0, SpringLayout.EAST, panel);
 		layout.putConstraint(SpringLayout.WEST, showQueue, 0, SpringLayout.WEST, panel);
 		layout.putConstraint(SpringLayout.NORTH, showQueue, 0, SpringLayout.SOUTH, add);
-		layout.putConstraint(SpringLayout.SOUTH, showQueue, 0, SpringLayout.SOUTH, panel);
+		showQueue.setPreferredSize(new Dimension(0, 100));
+
+		layout.putConstraint(SpringLayout.EAST, start, 0, SpringLayout.EAST, panel);
+		layout.putConstraint(SpringLayout.WEST, start, 0, SpringLayout.WEST, panel);
+		layout.putConstraint(SpringLayout.NORTH, start, 0, SpringLayout.SOUTH, showQueue);
+		layout.putConstraint(SpringLayout.SOUTH, start, 0, SpringLayout.SOUTH, panel);
+		
+		
 		
 		add.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -139,25 +167,33 @@ public class Queue {
 					totalPanel.add(panelFile);
 					totalPanel.add(opening);
 					
-					
-					textOfAddress=new JLabel("Address");
+					if (AddNewDownload.persian==false)
+					{textOfAddress=new JLabel("Address");
+					textOfFile=new JLabel("File");}
+					else
+					{
+						textOfAddress=new JLabel("ادرس");
+						textOfFile=new JLabel("فایل");	
+					}
 					textOfAddress.setEnabled(false);
-					textOfFile=new JLabel("File");
 					textOfFile.setEnabled(false);
 					address=new JTextField();
 					//address.setText("please enter the address");
 					address.setFont(new Font("Arial", Font.PLAIN, 20));
 					file=new JTextField();
-					//file.setText("please enter the direction");
+					file.setText("/home/paml");
 					
 					file.setFont(new Font("Arial", Font.PLAIN, 20));
 					
 					
 					
 					
-					
-					
-					download1=new JButton("ADD");
+					if (AddNewDownload.persian==false)
+					{download1=new JButton("ADD");}
+					else
+					{
+						download1=new JButton("اضافه");
+					}
 					download1.setBorderPainted(true);
 					download1.setForeground(Color.WHITE);
 					download1.setBackground(Color.BLACK);
@@ -432,7 +468,22 @@ public class Queue {
 			}
 		});
 		
-		
+		start.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				if (queueURL.size()==0)
+				{
+					System.out.println("NO queue");
+					return ;
+				}
+				else
+				{
+					toFile();
+					new Thread(new Queue(and)).start();
+				}
+			}
+		});
 		panel.setLayout(layout);
 		frame.add(panel);
 		frame.pack();
@@ -522,5 +573,213 @@ public class Queue {
 				}
 			}
 	
+	}
+	@Override
+	public void run() {
+		SwingWorker<Void, Void> worker=new SwingWorker<Void,Void>()
+		{
+			@Override
+			protected Void doInBackground() throws Exception {
+				while(queueURL.size()!=0)
+				{
+					boolean bl=false;
+					boolean bl2=false;
+					DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+					Calendar cal = Calendar.getInstance();
+					String time=dateFormat.format(cal.getTime());
+					System.out.println("lmd="+DownloadMenu.lmd);
+					if (LimitedDownloads.limitedDownload==-1 || LimitedDownloads.limitedDownload>=DownloadMenu.lmd)
+					{
+						System.out.println("newwwwww");
+						String firstLine="1";
+						File file2=new File("URL.jdm");
+						BufferedWriter bw=null;
+						try
+						{	
+							if (!file2.exists())
+							{
+								file2.createNewFile();
+							}
+							BufferedReader br=new BufferedReader(new InputStreamReader(new FileInputStream(file2)));
+							do
+							{
+								String string=br.readLine();
+								if (string!=null)
+								{
+									for(int i=0 ; i<string.length();i++)
+									{
+										if (string.charAt(i)=='/')
+										{
+											if (string.charAt(i+1)=='/')
+											{
+												i++;
+											}
+											else
+											{
+												bl=true;
+												break;
+											}
+										}
+									}
+									if (bl==true)
+									{
+										if (queueURL.get(0).equals(string)==true)
+										{
+											bl2=true;
+										}
+									}
+									if (bl==false)
+									{
+										if (queueURL.get(0).contains(string)==true)
+										{
+											bl2=true;
+										}
+									}
+								}	
+								else
+								{
+									firstLine=null;
+								}
+								string=br.readLine();
+							}while(firstLine!=null);
+						}
+						catch (IOException ioe) {
+							ioe.printStackTrace();
+							}
+							finally
+							{ 
+								try{
+									if(bw!=null)
+										bw.close();
+									if (bl2==false)
+									{
+										DownloadMenu dm=new DownloadMenu(queueURL.get(0), "0",time);
+										dm.setURL(queueURL.get(0));
+										dm.setFile(queueADDRESS.get(0));
+										System.out.println("address="+queueADDRESS.get(0));
+										System.out.println("heerrerere rwe googogogoogo");
+										AddNewDownload.adding(dm);
+										new Thread(dm).start();
+										and.showRunTime();
+										while(dm.getPercent()!=100)
+										{
+											System.out.println("Waiting");
+											continue;
+										}
+										queueURL.remove(0);
+										queueADDRESS.remove(0);
+									}
+									else
+									{
+										queueURL.remove(0);
+										queueADDRESS.remove(0);
+									}
+								}catch(Exception ex){
+									System.out.println("Error in closing the BufferedWriter"+ex);
+								}
+							}
+					}
+					else
+					{
+						JOptionPane.showMessageDialog(null, "Limited downloads","Alert",JOptionPane.WARNING_MESSAGE);
+						if (queueURL.size()!=0)
+						{
+							System.out.println("newwwwww");
+							String firstLine="1";
+							File file2=new File("URL.jdm");
+							BufferedWriter bw=null;
+							try
+							{	
+								if (!file2.exists())
+								{
+									file2.createNewFile();
+								}
+								BufferedReader br=new BufferedReader(new InputStreamReader(new FileInputStream(file2)));
+								do
+								{
+									String string=br.readLine();
+									if (string!=null)
+									{
+										for(int i=0 ; i<string.length();i++)
+										{
+											if (string.charAt(i)=='/')
+											{
+												if (string.charAt(i+1)=='/')
+												{
+													i++;
+												}
+												else
+												{
+													bl=true;
+													break;
+												}
+											}
+										}
+										if (bl==true)
+										{
+											if (queueURL.get(0).equals(string)==true)
+											{
+												bl2=true;
+											}
+										}
+										if (bl==false)
+										{
+											if (queueURL.get(0).contains(string)==true)
+											{
+												bl2=true;
+											}
+										}
+									}	
+									else
+									{
+										firstLine=null;
+									}
+									string=br.readLine();
+								}while(firstLine!=null);
+							}
+							catch (IOException ioe) {
+									ioe.printStackTrace();
+							}
+							finally
+							{ 
+								try{
+									if(bw!=null)
+										bw.close();
+									if (bl2==false)
+									{
+										DownloadMenu dm=new DownloadMenu(queueURL.get(0), "0",time);
+										dm.setURL(queueURL.get(0));
+										dm.setFile(queueADDRESS.get(0));
+										System.out.println("address="+queueADDRESS.get(0));
+										System.out.println("heerrerere rwe googogogoogo");
+										AddNewDownload.adding(dm);
+										AddNewDownload.addToArray2(dm);
+										new Thread(dm).wait();
+										and.showRunTime();
+										while(dm.getPercent()!=100)
+										{
+											System.out.println("Waiting");
+											continue;
+										}
+										queueADDRESS.remove(0);
+										queueURL.remove(0);
+									}
+									else
+									{
+										queueADDRESS.remove(0);
+										queueURL.remove(0);
+									}
+								}catch(Exception ex){
+									System.out.println("Error in closing the BufferedWriter"+ex);
+								}
+							}
+						}
+						and.showRunTime();
+					}
+				}
+				return null;
+			}
+		};
+		worker.execute();
 	}
 }

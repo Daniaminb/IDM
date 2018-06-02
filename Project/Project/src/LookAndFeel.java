@@ -32,6 +32,9 @@ public class LookAndFeel {
 	ArrayList<String> lookandfeelclass;
 	ArrayList<String> lookandfeelname;
 	ButtonGroup group;
+	/**
+	 * consturcotr for lookandfeel
+	 */
 	public LookAndFeel()
 	{
 		frame=new JFrame("Look And Feel");
@@ -122,10 +125,18 @@ public class LookAndFeel {
 		frame.pack();
 		
 	}
+	/**
+	 * show the frame of look and feel
+	 */
 	public void show()
 	{
 		frame.setVisible(true);
 	}
+	/**
+	 * item listener for look and feel
+	 * @author dannydani
+	 *
+	 */
 	private class  HandlerClass implements ItemListener
 	{
 		private String name;
